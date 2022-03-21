@@ -1,9 +1,12 @@
 package com.gft.projeto.entities;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Linguagem {
@@ -14,6 +17,9 @@ public class Linguagem {
 	private Long id;
 	
 	private String nome;
+	
+	@OneToMany(mappedBy = "linguagem")
+	private List<Desenvolvedor> desenvolvedores;
 
 	public Long getId() {
 		return id;
