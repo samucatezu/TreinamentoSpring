@@ -14,7 +14,7 @@ public class PrincipalController {
 		return mv;
 	}
 	
-	@RequestMapping
+	@RequestMapping("sobre")
 	public ModelAndView sobre() {
 		ModelAndView mv = new ModelAndView("sobre.html");
 		
