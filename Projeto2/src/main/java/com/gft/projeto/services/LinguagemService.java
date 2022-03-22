@@ -1,5 +1,7 @@
 package com.gft.projeto.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,11 @@ public class LinguagemService {
 	public Linguagem salvarLinguagem(Linguagem linguagem) {
 		
 		return linguagemRepository.save(linguagem);
+	}
+	
+	public List<Linguagem> listarLinguagem(){
+		
+		   return linguagemRepository.findAll();
 	}
 
 }
