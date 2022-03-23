@@ -4,7 +4,8 @@
 	layout:decorate="~{layout.html}">
 <meta charset="UTF-8">
 <div layout:fragment="content">
-	<div>
+	<div class="alert alert-primary" th:if="${#Lists.isEmpty(lista)}"> Nenhuma linguagem cadastrada </div>
+	<div th:if="${not #lists.isEmpty(lista)}">
 		<table class="table table-striped">
 			<thead>
 				<tr>

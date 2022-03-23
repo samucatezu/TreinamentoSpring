@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class Linguagem {
@@ -16,6 +17,7 @@ public class Linguagem {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotEmpty(message = "Nome nao pode ser vazio")
 	private String nome;
 	
 	@OneToMany(mappedBy = "linguagem")
