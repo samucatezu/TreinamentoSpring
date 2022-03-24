@@ -9,38 +9,45 @@ import org.springframework.stereotype.Service;
 import com.gft.projeto.entities.Linguagem;
 import com.gft.projeto.repositories.LinguagemRepository;
 
-@Service	
+
+@Service
 public class LinguagemService {
 	
 	@Autowired
 	private LinguagemRepository linguagemRepository;
 	
 	public Linguagem salvarLinguagem(Linguagem linguagem) {
-		
 		return linguagemRepository.save(linguagem);
 	}
 	
-	public List<Linguagem> listarLinguagem(){
-		
-		   return linguagemRepository.findAll();
+	public List<Linguagem> listarLinguagens(String nome){
+		if(nome != null) {
+			 return listarPorNome(nome);
+		}
+		return listarTodasLinguagens();
 	}
 	
-	public Linguagem obterlinguagem(Long id) throws Exception {
-		
+	 private List<Linguagem> listarPorNome(String nome){ 
+		return linguagemRepository.findByNomeContains(nome);
+	}
 	
-	    Optional<Linguagem> linguagem = linguagemRepository.findById(id);
-	    
-	    if(linguagem.isEmpty()) {
-	    	
-	    
-	       throw new Exception("Linguagem não encontrada.");
-	    }
-	       
-	    return linguagem.get();
-	    }
+	public List<Linguagem> listarTodasLinguagens(){
+		return linguagemRepository.findAll();
+	}
+	
+	public Linguagem obterLinguagem(Long id) {
+		return linguagemRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Linguagem não encontrada."));
+	}
 
 	public void excluirLinguagem(Long id) {
-		linguagemRepository.deleteById(id);
+		Linguagem linguagem = linguagemRepository.findById(id)
+		.orElseThrow(() -> new RuntimeException("Linguagem não encontrada."));
+		
+		if(linguagem != null) {
+			linguagemRepository.delete(linguagem);
+		}
+		
 	}
 
 }

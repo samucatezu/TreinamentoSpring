@@ -1,5 +1,7 @@
 package com.gft.projeto.controllers;
 
+import java.text.ParseException;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,90 +13,95 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.gft.projeto.entities.Desenvolvedor;
+import com.gft.projeto.entities.Projeto;
 import com.gft.projeto.services.DesenvolvedorService;
 import com.gft.projeto.services.LinguagemService;
+import com.gft.projeto.services.ProjetoService;
 
 
 
 @Controller
-@RequestMapping("desenvolvedor")
-public class DesenvolvedorController {
+@RequestMapping("projeto")
+public class ProjetoController {
 	
 	@Autowired
-	LinguagemService linguagemService;
+	private ProjetoService projetoService;
 	
 	@Autowired
-	DesenvolvedorService desenvolvedorService;
+	private DesenvolvedorService desenvolvedorService;
 	
+	@Autowired
+	private LinguagemService linguagemService;
 	
 	@RequestMapping(path = "editar")
-	public ModelAndView editarDesevolvedor(@RequestParam(required = false) Long id) {
+	public ModelAndView editarProjeto(@RequestParam(required = false) Long id) {
 		
-		ModelAndView mv = new ModelAndView("desenvolvedor/form.html");
+		ModelAndView mv = new ModelAndView("projeto/form.html");
 		
-		Desenvolvedor desenvolvedor;
+		Projeto projeto;
 		
 		if (id == null) {
-			desenvolvedor = new Desenvolvedor();
+			projeto = new Projeto();
 		}else {
 			try {
-				desenvolvedor = desenvolvedorService.obterDesenvolvedor(id);
+				projeto = projetoService.obterProjeto(id);
 			} catch (Exception e) {
-				desenvolvedor = new Desenvolvedor();
+				projeto = new Projeto();
 				mv.addObject("message", e.getMessage());
 			}
 		}
-		mv.addObject("desenvolvedor", desenvolvedor);
+		mv.addObject("projeto", projeto);
 		mv.addObject("listaLinguagens", linguagemService.listarTodasLinguagens());
+		mv.addObject("listaDesenvolvedores", desenvolvedorService.listarTodosDesenvolvedores());
 		
 		return mv;
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, path = "editar")
-	public ModelAndView salvarDesenvolvedor(@Valid Desenvolvedor desenvolvedor, BindingResult bindingResult) {
+	public ModelAndView salvarProjeto(@Valid Projeto projeto, BindingResult bindingResult) {
 		
-		ModelAndView mv = new ModelAndView("desenvolvedor/form.html");
+		ModelAndView mv = new ModelAndView("projeto/form.html");
 		
 		boolean novo = true;
 		
-		if(desenvolvedor.getId() != null) {
+		if(projeto.getId() != null) {
 			novo = false;
-		} 
+		}
 		
 		if(bindingResult.hasErrors()) {
-			mv.addObject("desenvolvedor", desenvolvedor);
+			mv.addObject("projeto", projeto);
 			return mv;
 		}
 		
-		desenvolvedorService.salvarDesenvolvedor(desenvolvedor);
+		projetoService.salvarProjeto(projeto);
 		
 		if(novo) {
-			mv.addObject("desenvolvedor", new Desenvolvedor());
+			mv.addObject("projeto", new Projeto());
 		}else {
-			mv.addObject("desenvolvedor", desenvolvedor);
+			mv.addObject("projeto", projeto);
 		}
 			
 		mv.addObject("message", "Registro salvo com sucesso");
 		mv.addObject("listaLinguagens", linguagemService.listarTodasLinguagens());
+		mv.addObject("listaDesenvolvedores", desenvolvedorService.listarTodosDesenvolvedores());
 		
 		return mv;
 	}
 	
 	@RequestMapping
-	public ModelAndView listarDesenvolvedor(String nome){
-		ModelAndView mv = new ModelAndView("desenvolvedor/listar.html");
-		mv.addObject("lista", desenvolvedorService.listarDesenvolvedor(nome));
+	public ModelAndView listarProjetos(String nome, String dataEntrega) throws ParseException{
+		ModelAndView mv = new ModelAndView("projeto/listar.html");
+		mv.addObject("lista", projetoService.listarProjetos(nome, dataEntrega));
 		
 		return mv;
 	}
 	
 	@RequestMapping("/excluir")
-	public ModelAndView excluirDesenvolvedor(@RequestParam Long id, RedirectAttributes redirectAttributes) {
-		ModelAndView mv = new ModelAndView("redirect:/desenvolvedor");
+	public ModelAndView excluirDesenvolvedorProjeto(@RequestParam Long id, RedirectAttributes redirectAttributes) {
+		ModelAndView mv = new ModelAndView("redirect:/projeto");
 
 		try {
-			desenvolvedorService.excluirDesenvolvedor(id);
+			projetoService.excluirProjeto(id);
 			redirectAttributes.addFlashAttribute("message", "Registro Excluído com sucesso.");
 		} catch (Exception e) {
 			redirectAttributes.addFlashAttribute("message", "Erro ao excluir registro."+e.getMessage());
@@ -104,4 +111,3 @@ public class DesenvolvedorController {
 	}
 
 }
-   

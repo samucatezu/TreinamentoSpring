@@ -7,20 +7,29 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Desenvolvedor {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotEmpty(message = "Nome não pode ser vazio.")
 	private String nome;
 	
+	@NotEmpty(message = "Quatro letras não pode ser em branco.")
+	@Size(min = 4, max = 4)
 	private String quatroLetras;
 	
+	@Email
 	private String email;
 	
+	@Digits(fraction = 2, integer = 10)
 	private BigDecimal salarioMensal;
 	
 	@ManyToOne
@@ -73,7 +82,5 @@ public class Desenvolvedor {
 	public void setLinguagem(Linguagem linguagem) {
 		this.linguagem = linguagem;
 	}
-	
-	
 
 }
