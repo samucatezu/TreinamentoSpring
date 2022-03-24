@@ -30,6 +30,7 @@ public class DesenvolvedorController {
         	}catch(Exception e) {
         		desenvolvedor = new Desenvolvedor();
         		mv.addObject("mensagem", e.getMessage());
+        	}
         }
         
         mv.addObject("desenvolvedor", desenvolvedor);
@@ -38,3 +39,4 @@ public class DesenvolvedorController {
         
    }
 }
+   

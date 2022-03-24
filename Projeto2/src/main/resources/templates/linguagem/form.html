@@ -11,13 +11,13 @@
           <p class= "text-primary">Nova Linguageme</p>
        </div>
        <div class="card-body">
-          <form method="POST" th:object="${Llinguagem}">
+          <form method="POST" th:object="linguagem" th:action="@{/linguagem/novo}">
               <input type="hidden" th:field="{id}">
               <div class="form-group mb-3">
                  <label for="nome">Nome da Linguagem:</label>
                  <input
                     class="form-control" type="text" th:field="*(nome}" required></input>
-                 <div class="text-danger" th:if="S{#fields.hasErrors('nome')}" th:errors="(nome}"></div>
+                 <div class="text-danger" th:if="S{#fields.hasErrors('nome')}" th:errors="{nome}"></div>
               </div>
               <button type="submit" class="btn btn-primary">Salvar
                  Linguagem</button>
