@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{layout.html}">
+<meta charset="UTF-8"/>
+
+<div layout:fragment="content">
+<div class="container">
+	<div  class="alert alert-success mt-3" role="alert" th:if="${message != null}">
+		<h5 th:text="${message}"></h5>
+	</div>
+	<div class="alert alert-primary mt-3" th:if="${#lists.isEmpty(lista)}">Nenhuma Projeto encontrado.</div>
+	
+	<div class="card mt-3">
+			<div class="card-header" style="background-color: #243c7c; color: #ffff;">
+				Pesquisar
+			</div>
+			<div class="card-body">
+				<form method="GET">
+					<div class="row">
+						<div class="col-7">
+							<label class="form-label">Nome</label>
+							<div class="input-group mb-3">
+						  		<input type="text" class="form-control" placeholder="Informe um nome" aria-label="Recipient's username" aria-describedby="button-addon2" name="nome"/>
+							</div>
+						</div>
+						<div class="col-4">
+							<label class="form-label">Data Entrega</label>
+							<div class="input-group mb-3">
+						  		<input type="text" class="form-control" placeholder="dd/mm/yyyy" aria-label="Recipient's username" aria-describedby="button-addon2" name="dataEntrega"/>
+							</div>
+						</div>
+						<div class="col-1">
+							<label class="mt-1"></label>
+							<button class="btn btn-outline-secondary" type="submit" style="background-color: #243c7c; color: #ffff;">Consultar</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	<div th:if="${not #lists.isEmpty(lista)}">
+			<table class="table table-striped table-hover mt-3" style="background-color: #ffff; color: #243c7c;">
+				<thead style="background-color: #243c7c; color: #ffff;">
+					<tr>
+						<th scope="col">Id</th>
+						<th scope="col">Nome</th>
+						<th scope="col">Apelido</th>
+						<th scope="col">Data Entrega</th>
+						<th scope="col">Orçamento</th>
+						<th scope="col">Linguagem</th>
+						<th scope="col">Ações</th>
+					</tr>
+				</thead>
+				<tbody style="background-color: #ffff;">
+					<tr th:each="projeto : ${lista}">
+						<td th:text="${projeto.id}"></td>
+						<td th:text="${projeto.nome}"></td>
+						<td th:text="${projeto.apelido}"></td>
+						<td th:text="${#dates.format(projeto.dataEntrega, 'dd/MM/yyyy')}"></td>
+						<td th:text="'R$ ' + ${#numbers.formatDecimal(projeto.orcamento, 0, 'POINT', 2, 'COMMA')}"></td>
+						<td th:text="${projeto.linguagem.nome}"></td>
+						<td>
+							<a th:href="@{/projeto/editar(id=${projeto.id})}"><span class="material-icons">edit</span></a>
+							<a th:href="@{/projeto/excluir(id=${projeto.id})}" onclick="return confirm('Deseja excluir o registro?')"><span class="material-icons">delete_outline</span></a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+</html>

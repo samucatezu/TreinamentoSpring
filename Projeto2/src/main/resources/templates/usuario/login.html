@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{layout.html}">
+<meta charset="UTF-8"/>
+
+<div layout:fragment="content">
+	<div class="container">
+		<div  class="alert alert-success mt-3" role="alert" th:if="${message != null}">
+			<h5 th:text="${message}"></h5>
+		</div>
+		<div class="card mt-3">
+			<div class="card-header">
+				Acesso ao Sistema
+			</div>
+			<div class="card-body">
+				<form method="POST" th:object="${usuario}" th:action="@{/usuario/novo}">
+					<input type="hidden" th:field="*{id}"/>
+					<div class="form-group">
+						<label class="form-label">Nome</label> <input type="text"
+							class="form-control" th:field="*{nome}"></input>
+					</div>
+					<div class="form-group">
+						<label class="form-label">Senha</label> <input type="password"
+							class="form-control" th:field="*{senha}"></input>
+					</div>
+					<button class="btn btn-primary mt-2" type="submit">Acessar</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+</html>

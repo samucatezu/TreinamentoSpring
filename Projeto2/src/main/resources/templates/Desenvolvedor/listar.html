@@ -11,7 +11,7 @@
 			<h5 th:text="${message}"></h5>
 		</div>
 		<div class="alert alert-primary mt-3" th:if="${#lists.isEmpty(lista)}">Nenhuma
-			linguagem encontrada.</div>
+			Desenvolvedor encontrado.</div>
 		<div class="card mt-3">
 			<div class="card-header"
 				style="background-color: #243c7c; color: #ffff;">Pesquisar</div>
@@ -30,8 +30,6 @@
 								style="background-color: #243c7c; color: #ffff;">Consultar</button>
 						</div>
 					</div>
-
-
 				</form>
 			</div>
 		</div>
@@ -41,16 +39,26 @@
 					<tr>
 						<th scope="col">Id</th>
 						<th scope="col">Nome</th>
+						<th scope="col">4 Letras</th>
+						<th scope="col">Salario</th>
+						<th scope="col">E-mail</th>
+						<th scope="col">Linguagem</th>
 						<th scope="col">Ações</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="linguagem: ${lista}">
-						<td th:text="${linguagem.id}"></td>
-						<td th:text="${linguagem.nome}" width="75%"></td>
-						<td><a th:href="@{/linguagem/editar(id=${linguagem.id})}"><span
+					<tr th:each="desenvolvedor : ${lista}">
+						<td th:text="${desenvolvedor.id}"></td>
+						<td th:text="${desenvolvedor.nome}"></td>
+						<td th:text="${desenvolvedor.quatroLetras}"></td>
+						<td
+							th:text="'R$ ' + ${#numbers.formatDecimal(desenvolvedor.salarioMensal, 0, 'POINT', 2, 'COMMA')}"></td>
+						<td th:text="${desenvolvedor.email}"></td>
+						<td th:text="${desenvolvedor.linguagem.nome}"></td>
+						<td><a
+							th:href="@{/desenvolvedor/editar(id=${desenvolvedor.id})}"><span
 								class="material-icons">edit</span></a> <a
-							th:href="@{/linguagem/excluir(id=${linguagem.id})}"
+							th:href="@{/desenvolvedor/excluir(id=${desenvolvedor.id})}"
 							onclick="return confirm('Deseja excluir o registro?')"><span
 								class="material-icons">delete_outline</span></a></td>
 					</tr>

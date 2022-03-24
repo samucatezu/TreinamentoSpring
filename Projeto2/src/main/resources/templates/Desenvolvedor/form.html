@@ -1,61 +1,69 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/Layout"
-	layout:decorate="~(Layout.html}">
-<meta charset="UTF-8">
-<div layout:fragment="content">
-	<div class="alert alert-primary" th:if="$(mensagem != null}"
-		th:text="${mensagem)"></div>
-	<div class="card">
-		<div class="card-header">
-			<p class="text-primary">Novo Desenvolvedor</p>
-		</div>
-		<div class="card-body">
-			<form method="POST" th:object="${desenvolvedor}"
-				th:action="@{/desenvolvedor/editar}">
-				<input type="hidden" th:field="{id}">
-				<div class="form-group mb-3">
-					<label for="nome">Nome:</label> <input class="form-control"
-						type="text" th:field="*(nome}" required></input>
-					<div class="text-danger" th:if="S{#fields.hasErrors('nome')}"
-						th:errors="(nome}"></div>
-				</div>
-				<div class="form-group mb-3">
-					<label for="quatroLetras">Quatro letras:</label> <input
-						class="form-control" type="text" th:field="*(quatroLetras}"
-						required></input>
-					<div class="text-danger"
-						th:if="S{#fields.hasErrors('quatroLetras')}"
-						th:errors="{quatroLetras}"></div>
-				</div>
-				<div class="form-group mb-3">
-					<label for="nome">Email:</label> <input class="form-control"
-						type="email" th:field="*{email}" required></input>
-					<div class="text-danger" th:if="S{#fields.hasErrors('email')}"
-						th:errors="{email}"></div>
-				</div>
-				<div class="form-group mb-3">
-					<label for="nome">Salario Mensal:</label> <input
-						class="form-control" step="0.01" min="0.01" type="number"
-						th:field="*{salarioMensal}" required></input>
-					<div class="text-danger"
-						th:if="S{#fields.hasErrors('salarioMensal')}"
-						th:errors="{salarioMensal}"></div>
-				</div>
-				<div class="form-group mb-3">
-					<label for="nome">Linguagem:</label> <select class="form-select"
-						th:field="*{Linguagem">
-						<option th:each="linguagem: ${listaLinguagens}"
-							th:value="${Linguagem.id}" th:text="${Linguagem.nome}" />
-					</select>
-					<div class="text-danger"
-						th:if="S{#fields.hasErrors('salarioMensal')}"
-						th:errors="{salarioMensal}"></div>
-				</div>
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout.html}">
+<meta charset="UTF-8" />
 
-				<button type="submit" class="btn btn-primary">Salvar
-					Linguagem</button>
-			</form>
+<div layout:fragment="content">
+	<div class="container">
+		<div class="alert alert-success mt-3" role="alert"
+			th:if="${message != null}">
+			<h5 th:text="${message}"></h5>
+		</div>
+		<div class="card mt-3">
+			<div class="card-header"
+				style="background-color: #243c7c; color: #ffff;">Cadastrar
+				Desenvolvedor</div>
+			<div class="card-body">
+				<form method="POST" th:object="${desenvolvedor}"
+					th:action="@{/desenvolvedor/editar}">
+					<input type="hidden" th:field="*{id}" />
+					<div class="form-group mb-3">
+						<label class="form-label">Nome</label> <input type="text"
+							class="form-control has-validation" th:field="*{nome}"></input>
+						<div class="invalid-feedback" th:if="${#fields.hasErrors('nome')}"
+							th:errors="*{nome}"></div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-4">
+							<div class="form-group">
+								<label class="form-label">Letras</label> <input type="text"
+									class="form-control has-validation" maxlength="4"
+									th:field="*{quatroLetras}"></input>
+								<div class="invalid-feedback"
+									th:if="${#fields.hasErrors('quatroLetras')}"
+									th:errors="*{quatroLetras}"></div>
+							</div>
+						</div>
+						<div class="col-4">
+							<div class="form-group">
+								<label class="form-label">Salário</label> <input step="0.01"
+									min="0.01" type="number" class="form-control has-validation"
+									th:field="*{salarioMensal}" />
+								<div class="invalid-feedback"
+									th:if="${#fields.hasErrors('salarioMensal')}"
+									th:errors="*{salarioMensal}"></div>
+							</div>
+						</div>
+						<div class="col-4">
+							<div class="form-group">
+								<label class="form-label">Linguagem</label> <select
+									class="form-select" th:field="*{linguagem}">
+									<option th:each="linguagem: ${listaLinguagens}"
+										th:value="${linguagem.id}" th:text="${linguagem.nome}" />
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="form-group mb-3">
+						<label class="form-label">E-mail</label> <input type="email"
+							class="form-control" required="required" th:field="*{email}" />
+					</div>
+
+					<button class="btn mt-2" type="submit"
+						style="background-color: #243c7c; color: #ffff;">Salvar</button>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>
